@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@openzeppelin/contracts-upgradeable": "4.4.1",
+    "@openzeppelin/truffle-upgrades": "^1.11.0",
+    "elf-contracts": "^1.1.8",
+    "solc": "0.8.11",
+    "truffle-build-helper": "^1.2.5"
+  }
+}
