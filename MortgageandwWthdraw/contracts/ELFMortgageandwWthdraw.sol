@@ -1,4 +1,4 @@
-pragma solidity ^0.8.0;
+pragma solidity 0.8.0;
 // SPDX-License-Identifier: MIT
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable.sol';
@@ -10,7 +10,7 @@ import 'elf-contracts/contracts/lib/LibMortgage.sol';
 import 'elf-contracts/contracts/interface/IELFToken.sol';
 
 
-contract ELFMortgageandwWthdraw is OwnableUpgradeable, ReentrancyGuardUpgradeable {
+contract ELFMortgageAndwWthdraw is OwnableUpgradeable, ReentrancyGuardUpgradeable {
     using SafeMathUpgradeable for uint;
     uint256 public trainMortgageQuantity;
     IAddressManager public addressManager;
@@ -25,7 +25,7 @@ contract ELFMortgageandwWthdraw is OwnableUpgradeable, ReentrancyGuardUpgradeabl
     event NFTMortgageStart(address indexed contractAddress, uint256 tokenId, address account);
     event NFTMortgageCancel(address indexed contractAddress, uint256 tokenId, address account);
 
-    function _INIT_ELFMortgageandwWthdraw_ (IAddressManager _addressManager, uint256 _trainMortgageQuantity) public initializer {
+    function _INIT_ELFMortgageAndwWthdraw_ (IAddressManager _addressManager, uint256 _trainMortgageQuantity) public initializer {
         __Ownable_init();
         __ReentrancyGuard_init();
         addressManager = _addressManager;
@@ -45,6 +45,11 @@ contract ELFMortgageandwWthdraw is OwnableUpgradeable, ReentrancyGuardUpgradeabl
         IERC20Upgradeable(tokenContractAddress).transferFrom(_msgSender(), address(this), trainMortgageQuantity);
         trainMortgage[contractAddress][tokenId].startTime = block.timestamp;
         trainMortgage[contractAddress][tokenId].quantity = trainMortgageQuantity;
+        // check game pledge elft quantity
+        if (gamesMortgageELFTAmt == 0) {
+            gamesMortgage[contractAddress][tokenId].startTime = block.timestamp;
+            emit GamesMortgageStart(contractAddress, tokenId, _msgSender());
+        }
         emit TrainMortgageStart(contractAddress, tokenId, _msgSender());
     }
 
